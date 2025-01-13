@@ -4,6 +4,7 @@ on:
   schedule:
     # Trigger the action every day at midnight UTC
     - cron: "0 0 * * *"
+  workflow_dispatch:  # Allows manual triggers
 
 jobs:
   commit-changes:
