@@ -1,0 +1,35 @@
+name: Daily Commits
+
+on:
+  schedule:
+    # Trigger the action every day at midnight UTC
+    - cron: "0 0 * * *"
+  workflow_dispatch:  # Allows manual triggers
+
+jobs:
+  commit-changes:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v2
+        
+      - name: Set up Git configuration
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+
+      - name: Make 5 commits
+        run: |
+          for i in {1..5}
+          do
+            # Create or modify a file with a timestamp
+            echo "Commit number $i - $(date)" > commit_$i.txt
+            
+            # Stage, commit, and push changes
+            git add commit_$i.txt
+            git commit -m "Automated commit $i"
+            
+            # Push the changes to GitHub
+            git push origin main
+          done
